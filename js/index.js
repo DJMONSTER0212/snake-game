@@ -4,7 +4,7 @@ const foodsound =  new Audio("mixkit-player-recharging-in-video-game-2041.wav");
 const gameover = new Audio("mixkit-arcade-retro-game-over-213.wav");
 const turn = new Audio("mixkit-quick-jump-arcade-game-239.wav");
 const running = new Audio("mixkit-arcade-retro-run-sound-220.wav");
-let speed = 5;
+let speed = 19;
 let score = 0;
 let lastPaintTime = 0;
 let snakeArr= [
@@ -23,6 +23,16 @@ function main(ctime){    /// setinterval use karte toh fliker aata magar is meth
 }
 
 function isCollide(snakeArr){
+    // if you bump into yourself
+    for(let i= 1;i<snakeArr.length;i++){
+        if(snakeArr[i].x===snakeArr[0].x && snakeArr[i].y===snakeArr[0].y){
+            return true;
+        }
+    }
+    // if you bump into the wall
+    if(snakeArr[0].x>=18||snakeArr[0].x<=0 ||snakeArr[0].y>=18||snakeArr[0].y<=0 ){
+        return true;
+    }
     return false;
 }
 
@@ -36,10 +46,18 @@ function gameEngine(){
             snakeArr = [{x:13,y:15}];
             running.play();
             score = 0;
+            scoreBox.innerHTML = "Score :"+ score;
         }
 
     //  If you have eaten the food, increment the score and regenerate the food 
     if(snakeArr[0].y === food.y && snakeArr[0].x === food.x ){
+        score+=1;
+        if(score>hiscoreval){
+            hiscoreval = score;
+            localStorage.setItem("hiscore",JSON.stringify(hiscoreval))
+            hiscoreBox.innerHTML  = "Hiscore : "+ hiscoreval; 
+        }
+        scoreBox.innerHTML = "Score :"+ score;
         foodsound.play()
         snakeArr.unshift({x:snakeArr[0].x + inputDir.x,y:snakeArr[0].y + inputDir.y});
         let a = 2;
@@ -78,6 +96,15 @@ function gameEngine(){
 
 
 //main logic
+let hiscore = localStorage.getItem("hiscore");
+if(hiscore===null){
+    hiscoreval = 0;
+    localStorage.setItem("hiscore",JSON.stringify(hiscoreval));
+}
+else {
+    hiscoreval =  JSON.parse(localStorage.getItem("hiscore"));
+    hiscoreBox.innerHTML  = "Hiscore : "+ hiscore;
+}
 window.requestAnimationFrame(main);
 window.addEventListener("keydown",(e)=>{
     inputDir = {x:0,y:1}; //start the game

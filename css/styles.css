@@ -20,10 +20,32 @@ body{
 }
 .head{
     background-color: white;
+    border: .25vmin solid black;
+    border-radius: 12px;
 }
 .food{
-    background-color: red;
+    background: linear-gradient(red,yellow);
+    border: .25vmin solid black;
+    border-radius: 12px;    
 }
 .snake{
-    background-color: rgb(3, 240, 110);
+    background: linear-gradient(white,green);
+    border: .25vmin solid black;
+    border-radius: 12px;
+}
+#scoreBox{
+    position: absolute;
+    color: white;
+    top: 9px;
+    right: 200px;
+    font-size: 39px;
+    font-weight: bold;
+}
+#hiscoreBox{
+    position: absolute;
+    color: white;
+    top: 50px;
+    right: 200px;
+    font-size: 39px;
+    font-weight: bold;
 }
