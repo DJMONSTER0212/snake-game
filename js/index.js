@@ -4,12 +4,12 @@ const foodsound =  new Audio("mixkit-player-recharging-in-video-game-2041.wav");
 const gameover = new Audio("mixkit-arcade-retro-game-over-213.wav");
 const turn = new Audio("mixkit-quick-jump-arcade-game-239.wav");
 const running = new Audio("mixkit-arcade-retro-run-sound-220.wav");
-let speed = 2;
+let speed = 5;
 let score = 0;
 let lastPaintTime = 0;
 let snakeArr= [
     {x:13,y:15}
-]
+];
 food = {x:6,y:7};
 // Gaming Functions 
 function main(ctime){    /// setinterval use karte toh fliker aata magar is method se fliker nhi aayega|| gives best fps
@@ -22,26 +22,25 @@ function main(ctime){    /// setinterval use karte toh fliker aata magar is meth
     // console.log(ctime);
 }
 
-function iscollide(snakeArr){
+function isCollide(snakeArr){
     return false;
 }
 
 function gameEngine(){
     // part 1: Updating the snake array and food
-    if(isCollide(snakeArr)){
-        gameover.play();
-        running.pause();
-        inputDir = {x:0,y:0};
-        alert("Game Over ☠☠☠ Press any key to play again!!");
-        snakeArr = [
-            {x:13,y:15}
-        ];
-        running.play();
-        score = 0;
-    }
+        if(isCollide(snakeArr)){
+            gameover.play();
+            running.pause();
+            inputDir = {x:0,y:0};
+            alert("Game Over ☠☠☠ Press any key to play again!!");
+            snakeArr = [{x:13,y:15}];
+            running.play();
+            score = 0;
+        }
 
     //  If you have eaten the food, increment the score and regenerate the food 
     if(snakeArr[0].y === food.y && snakeArr[0].x === food.x ){
+        foodsound.play()
         snakeArr.unshift({x:snakeArr[0].x + inputDir.x,y:snakeArr[0].y + inputDir.y});
         let a = 2;
         let b = 16;
@@ -49,8 +48,13 @@ function gameEngine(){
     }
 
     //  Moving the snake 
-
-
+    for(let i = snakeArr.length -2;i>=0;i--){
+        
+        snakeArr[i+1] = {...snakeArr[i]}; 
+    }
+    snakeArr[0].x += inputDir.x; 
+    snakeArr[0].y += inputDir.y;
+ 
     // part 2: Render the snake and food
     // displaying the snake
     board.innerHTML ="";  
